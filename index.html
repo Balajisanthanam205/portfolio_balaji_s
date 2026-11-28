@@ -231,7 +231,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--line);box-shadow:0 0 
 .sy h3{font-size:1.3rem}.sy ul{margin:0;padding-left:1.1rem;color:var(--muted);font-size:.95rem}.sy li{margin:.3rem 0}
 
 /* intro */
-.intro-on header{margin-bottom:-76px}
+.intro-on header,.intro-on #bot,.intro-on #prog,.intro-on body::before{display:none}
+header,#bot{animation:hf .7s both}@keyframes hf{from{opacity:0;transform:translateY(-10px)}}
 .ishow{position:relative;height:540svh}
 .ipin{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#3a4147 0%,#1c2024 55%,#0d0f11 100%)}
 #bgl{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -657,7 +658,7 @@ const bp=new THREE.Mesh(new THREE.PlaneGeometry(4.4,3),bm);bp.rotation.x=-Math.P
 /* reference labels on the floating parts */
 function label(txt){const c=document.createElement("canvas");c.width=192;c.height=72;const x=c.getContext("2d");x.fillStyle="rgba(12,14,16,.8)";x.beginPath();x.roundRect?x.roundRect(4,8,184,56,14):x.rect(4,8,184,56);x.fill();x.strokeStyle="rgba(255,255,255,.4)";x.lineWidth=2;x.stroke();x.fillStyle="#fff";x.font="600 34px Inter,Arial,sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(txt,96,38);
 const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false,fog:false}));s.renderOrder=10;pcb.add(s);return s}
-C.forEach(c=>{c.lb=label(c.name)});
+
 /* ---- enclosure ---- */
 const base=new THREE.Group(),outer=rr(5.04,3.64,.34);outer.holes.push(rr(4.8,3.4,.24));base.add(new THREE.Mesh(ex(outer,1.25),shellM),new THREE.Mesh(ex(rr(5.04,3.64,.34),.1,.02),shellM));
 for(const x of[-1.95,1.95])for(const z of[-1.2,1.2]){const p=new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.4,20),brass);p.position.set(x,.3,z);base.add(p)}
@@ -690,7 +691,7 @@ const kx=Math.min(1.25,asp*.75),zS=Math.max(14,(2*4.4*kx+3)/(.536*asp)),zM=Math.
 const z=kf(p,[[0,zS],[.42,zM],[.72,zM],[.95,zE],[1,zE]]),ly=kf(p,[[0,.9],[.5,.6],[.74,-.3],[1,-.7]])-(asp<1?.9:0);
 C.forEach((c,i)=>{const e=ease(cl((p-c.a)/(c.b-c.a))),u=1-e,ph=t*.25*u,co=Math.cos(ph),si=Math.sin(ph),sx0=c.s[0]*co-c.s[2]*si,sz0=c.s[0]*si+c.s[2]*co,bob=Math.sin(t*1.2+i)*.15*u;
 c.g.position.set(lerp(c.x,sx0,u),lerp(T,c.s[1],u)+Math.sin(Math.PI*e)*.9+bob,lerp(c.z,sz0,u));c.g.rotation.set(c.r0[0]*u,c.ry+c.r0[1]*u+t*.6*u,c.r0[2]*u);
-const op=cl((u-.06)/.3)*(p<.55?1:0);c.lb.visible=op>.01;c.lb.material.opacity=op;c.lb.position.set(c.g.position.x,c.g.position.y+.42,c.g.position.z);const ls=z*.036;c.lb.scale.set(ls,ls/2.67,1)});
+});
 const eB=ease(cl((p-.5)/.22));pcb.position.y=lerp(1.2,-1.18,eB)+Math.sin(t*.8)*.06*(1-eB);pcb.rotation.x=(.5+Math.sin(t*.6)*.04)*(1-eB);pcb.rotation.y=Math.sin(t*.3)*.15*(1-eB);
 const eBs=ease(cl((p-.46)/.16));base.position.y=lerp(-5.5,-1.7,eBs);base.visible=eBs>.01;shellM.opacity=eBs;brass.opacity=eBs;
 const eL=ease(cl((p-.74)/.12));lid.position.y=lerp(8,-.45,eL);lid.rotation.set(.5*(1-eL),0,.3*(1-eL));
